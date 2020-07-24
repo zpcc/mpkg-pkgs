@@ -18,6 +18,7 @@ class Package(Soft):
                 project[:-9].replace('/files/', '/')
             return result
         else:
+            # input: https://sourceforge.net/projects/sevenzip/files/7-Zip/
             # output: [('19.00', '2019-02-22'), ('18.06', '2018-12-30')]
             #items = re.findall('net\.sf\.files = (.*);', GetPage(url))[0]
             folers = etree.HTML(GetPage(url)).xpath('//*[@class="folder "]')
@@ -28,6 +29,8 @@ class Package(Soft):
 
     @staticmethod
     def github(url: str):
+        # input: https://github.com/git-for-windows/git/releases/latest
+        # output: ('Git for Windows 2.27.0', ['https://github.com/git-for-wind...], '2020-06-01')
         page = etree.HTML(GetPage(url))
         #release=page.xpath('//div[contains(@class, "release-main-section")]')[0]
         header = page.xpath('//*[@class="release-header"]')[0]

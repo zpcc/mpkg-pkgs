@@ -13,7 +13,6 @@ class Package(Soft):
         header, links, self.date = parser(url)
         self.log = url
         self.ver = header.split(' ')[-1]
-        self.link = {}
         for link in links:
             if link.endswith('-64-bit.exe'):
                 self.link['64bit'] = link
