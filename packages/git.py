@@ -8,7 +8,7 @@ class Package(Soft):
 
     def _prepare(self):
         parser = Load(
-            'https://github.com/zpcc/mpkg-pkgs/raw/master/parser/common.py')[0][0].github
+            'https://github.com/zpcc/mpkg-pkgs/raw/master/parser/common-zpcc.py', sync=False)[0][0].github
         url = 'https://github.com/git-for-windows/git/releases/latest'
         header, links, self.date = parser(url)
         self.log = url

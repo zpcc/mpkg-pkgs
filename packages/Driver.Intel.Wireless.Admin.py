@@ -23,11 +23,14 @@ class Package(Soft):
         tmp = [x for x in etree.HTML(page).xpath('//p')
                if b'Last Reviewed' in etree.tostring(x)][0]
         date = list(tmp.itertext())[2].replace(' ', '').strip()
-        self.ver = time.strftime('%y%m%d', time.strptime(date, '%m/%d/%Y'))
+        self.date = time.strftime('%Y-%m-%d', time.strptime(date, '%m/%d/%Y'))
         tmp = [x for x in etree.HTML(page).xpath('//a')
                if b'Download Here' in etree.tostring(x)]
         if len(tmp) == 1:
             self.links = sorted(getIntelDrivers(
                 tmp[0].values()[0]), reverse=True)
+            for link in self.links:
+                if link.endswith('_all.zip'):
+                    self.ver = link.split('_all.zip')[0].split('_')[-1]
         else:
             print('IntelWifi(Soft) parsing error')

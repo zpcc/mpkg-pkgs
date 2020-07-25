@@ -8,7 +8,7 @@ class Package(Soft):
 
     def _prepare(self):
         parser = Load(
-            'https://github.com/zpcc/mpkg-pkgs/raw/master/parser/common.py')[0][0].sourceforge
+            'https://github.com/zpcc/mpkg-pkgs/raw/master/parser/common-zpcc.py', sync=False)[0][0].sourceforge
         url = 'https://sourceforge.net/projects/sevenzip/files/7-Zip/'
         self.log = 'https://www.7-zip.org/history.txt'
         ver, self.date = parser(url)[0]
