@@ -7,7 +7,7 @@ from mpkg.common import Driver
 from mpkg.utils import GetPage
 
 
-@lru_cache
+@lru_cache()
 def getIntelList(URL) -> list:
     # ['英特尔®显卡-Windows® 10 DCH 驱动程序', '驱动程序', ['Windows 10，64 位*'], '27.20.100.8280', '05-29-2020', '/zh-cn/download/29616/-Windows-10-DCH-']
     u = URL.split('/product/')

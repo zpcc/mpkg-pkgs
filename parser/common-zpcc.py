@@ -14,7 +14,7 @@ class Package(Soft):
             # output: https://newcontinuum.dl.sourceforge.net/project/sevenzip/7-Zip/19.00/7z1900.exe
             project = re.findall(
                 'https?://sourceforge.net/projects/(.*)', url)[0]
-            result = 'https://newcontinuum.dl.sourceforge.net/project/' + \
+            result = 'https://downloads.sourceforge.net/project/' + \
                 project[:-9].replace('/files/', '/')
             return result
         else:

@@ -5,7 +5,7 @@ from lxml import etree
 
 class Package(Soft):
     ID = 'sumatrapdf'
-    SilentArgs = '/S /NoDesktop'
+    SilentArgs = '/S'
 
     def _prepare(self):
         # https://github.com/sumatrapdfreader/sumatrapdf/releases/latest
