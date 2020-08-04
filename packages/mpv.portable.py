@@ -7,8 +7,7 @@ class Package(Soft):
     BIN = ['mpv.com']
 
     def _prepare(self):
-        parser = Load(
-            'https://github.com/zpcc/mpkg-pkgs/raw/master/parser/common-zpcc.py', sync=False)[0][0].sourceforge
+        parser = Load('http/common-zpcc.py', sync=False)[0][0].sourceforge
         url = 'https://sourceforge.net/projects/mpv-player-windows/files/stable/'
         self.log = 'https://github.com/mpv-player/mpv/releases'
         items = parser(url)

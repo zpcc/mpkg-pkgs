@@ -3,17 +3,17 @@ from mpkg.load import Load
 
 
 class Package(Soft):
-    ID = 'git'
-    SilentArgs = '/sp- /verysilent /norestart'
+    ID = 'TrafficMonitor.portable'
+    BIN = ['PORTABLE']
 
     def _prepare(self):
         parser = Load('http/common-zpcc.py', sync=False)[0][0].github
-        url = 'https://github.com/git-for-windows/git/releases/latest'
+        url = 'https://github.com/zhongyang219/TrafficMonitor/releases/latest'
         header, links, self.date = parser(url)
         self.log = url
-        self.ver = header.split(' ')[-1]
+        self.ver = header.split('V')[1]
         for link in links:
-            if link.endswith('-64-bit.exe'):
+            if link.endswith('_x64.7z'):
                 self.link['64bit'] = link
-            elif link.endswith('-32-bit.exe'):
+            elif link.endswith('_x86.7z'):
                 self.link['32bit'] = link

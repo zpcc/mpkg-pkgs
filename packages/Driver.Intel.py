@@ -45,4 +45,5 @@ class Package(Driver):
         self.date = '-'.join([date[-1]]+date[:-1])
         self.ver = item[3]
         url = 'https://downloadcenter.intel.com'+item[-1]
+        self.log = url
         self.links = getIntelDrivers(url)

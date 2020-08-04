@@ -26,7 +26,9 @@ class Package(Soft):
         tmp = [x for x in etree.HTML(page).xpath('//a')
                if b'Download Here' in etree.tostring(x)]
         if len(tmp) == 1:
-            drivers, version, date = getIntelDrivers(tmp[0].values()[0])
+            url = tmp[0].values()[0]
+            self.log = url
+            drivers, version, date = getIntelDrivers(url)
             self.links = sorted(drivers, reverse=True)
             self.date = date
             self.ver = version
