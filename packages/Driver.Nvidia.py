@@ -22,6 +22,7 @@ class Package(Driver):
                        input('only download Studio Driver ? (press enter means no, input 1 means yes): '))
 
     def _prepare(self):
+        data = self.data
         r = GetPage(self.url, UA=UA)
         L = etree.HTML(r).xpath('//*[@id="driverList"]')
         if self.isStudio:
@@ -31,12 +32,12 @@ class Package(Driver):
             L = [x for x in L if x.xpath(
                 './/a')[0].text != 'NVIDIA Studio Driver']
         r = L[0].xpath('.//td')
-        self.date = time.strftime(
+        data.date = time.strftime(
             '%Y-%m-%d', time.strptime(r[3].text, '%B %d, %Y'))
-        self.ver = r[2].text
-        self.log = f'https://us.download.nvidia.com/Windows/{self.ver}/{self.ver}-win10-win8-win7-release-notes.pdf'
+        data.ver = r[2].text
+        data.changelog = f'https://us.download.nvidia.com/Windows/{data.ver}/{data.ver}-win10-win8-win7-release-notes.pdf'
         result = 'https:'+r[1].xpath('.//a')[0].values()[0]
         link = etree.HTML(GetPage(result, UA=UA)).xpath(
             '//*[@id="lnkDwnldBtn"]')[0].values()[0]
-        self.link = {
+        data.arch = {
             '64bit': 'https://us.download.nvidia.com'+link.split('confirmation.php?url=')[1].split('&')[0]}

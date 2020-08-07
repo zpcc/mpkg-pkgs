@@ -4,19 +4,20 @@ from mpkg.load import Load
 
 class Package(Soft):
     ID = '7zip'
-    SilentArgs = '/S'
 
     def _prepare(self):
+        data = self.data
+        data.args = '/S'
         parser = Load('http/common-zpcc.py', sync=False)[0][0].sourceforge
         url = 'https://sourceforge.net/projects/sevenzip/files/7-Zip/'
-        self.log = 'https://www.7-zip.org/history.txt'
-        ver, self.date = parser(url)[0]
-        self.ver = ver
+        data.changelog = 'https://www.7-zip.org/history.txt'
+        ver, data.date = parser(url)[0]
+        data.ver = ver
         links = [parser(url+ver+'/'+item[0]+'/download')
                  for item in parser(url+ver)]
         for link in links:
             if link.endswith('.exe'):
                 if link.endswith('-x64.exe'):
-                    self.link['64bit'] = link
+                    data.arch['64bit'] = link
                 else:
-                    self.link['32bit'] = link
+                    data.arch['32bit'] = link

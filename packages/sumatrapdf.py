@@ -8,16 +8,18 @@ class Package(Soft):
     SilentArgs = '/S'
 
     def _prepare(self):
+        data = self.data
+        data.args = '/S'
         # https://github.com/sumatrapdfreader/sumatrapdf/releases/latest
-        self.log = 'https://www.sumatrapdfreader.org/docs/Version-history.html'
+        data.changelog = 'https://www.sumatrapdfreader.org/docs/Version-history.html'
         url = 'https://www.sumatrapdfreader.org/download-free-pdf-viewer.html'
         links = ['https://www.sumatrapdfreader.org'+x.values()[0]
                  for x in etree.HTML(GetPage(url)).xpath('//table//a')]
         for link in links:
             if link.endswith('.exe'):
                 if link.endswith('-64-install.exe'):
-                    self.link['64bit'] = link
-                    self.ver = link.split(
+                    data.arch['64bit'] = link
+                    data.ver = link.split(
                         'SumatraPDF-')[1].split('-64-install.exe')[0]
                 else:
-                    self.link['32bit'] = link
+                    data.arch['32bit'] = link

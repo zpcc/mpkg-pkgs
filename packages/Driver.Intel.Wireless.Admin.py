@@ -21,16 +21,17 @@ class Package(Soft):
     ID = 'IntelWirelessDriver.admin'
 
     def _prepare(self):
+        data = self.data
         page = GetPage(
             'https://www.intel.com/content/www/us/en/support/articles/000017246/network-and-i-o/wireless-networking.html')
         tmp = [x for x in etree.HTML(page).xpath('//a')
                if b'Download Here' in etree.tostring(x)]
         if len(tmp) == 1:
             url = tmp[0].values()[0]
-            self.log = url
+            data.changelog = url
             drivers, version, date = getIntelDrivers(url)
-            self.links = sorted(drivers, reverse=True)
-            self.date = date
-            self.ver = version
+            data.links = sorted(drivers, reverse=True)
+            data.date = date
+            data.ver = version
         else:
             print('IntelWifi(Soft) parsing error')

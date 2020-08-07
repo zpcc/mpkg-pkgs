@@ -38,12 +38,13 @@ class Package(Driver):
         self.setconfig('driverKeyword')
 
     def _prepare(self):
+        data = self.data
         L = getIntelList(self.url)
         item = sorted([x for x in L if self.kw in x[0]],
                       key=lambda x: x[3], reverse=True)[0]
         date = item[4].split('-')
-        self.date = '-'.join([date[-1]]+date[:-1])
-        self.ver = item[3]
+        data.date = '-'.join([date[-1]]+date[:-1])
+        data.ver = item[3]
         url = 'https://downloadcenter.intel.com'+item[-1]
-        self.log = url
-        self.links = getIntelDrivers(url)
+        data.changelog = url
+        data.links = getIntelDrivers(url)
