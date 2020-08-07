@@ -5,10 +5,10 @@ from mpkg.utils import Search
 
 class Package(Soft):
     ID = 'qbittorrent'
-    SilentArgs = '/S'
 
     def _prepare(self):
         data = self.data
+        data.args='/S'
         parser = Load('http/common-zpcc.py', sync=False)[0][0].sourceforge
         url = 'https://sourceforge.net/projects/qbittorrent/files/qbittorrent-win32/'
         data.changelog = 'https://www.qbittorrent.org/news.php'

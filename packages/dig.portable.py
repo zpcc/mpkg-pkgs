@@ -18,6 +18,6 @@ class Package(Soft):
         v = data.ver.split('.')[0]
         date = item.getnext().getnext().text
         data.date = time.strftime('%Y-%m-%d', time.strptime(date, '%B %Y'))
-        data.changelog = f'https://downloads.isc.org/isc/bind{v}/{date.ver}/RELEASE-NOTES-bind-{date.ver}.html'
+        data.changelog = f'https://downloads.isc.org/isc/bind{v}/{data.ver}/RELEASE-NOTES-bind-{data.ver}.html'
         data.arch = {
-            '64bit': f'https://downloads.isc.org/isc/bind{v}/{date.ver}/BIND{date.ver}.x64.zip'}
+            '64bit': f'https://downloads.isc.org/isc/bind{v}/{data.ver}/BIND{data.ver}.x64.zip'}

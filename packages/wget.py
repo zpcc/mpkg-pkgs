@@ -4,7 +4,6 @@ from mpkg.utils import Search
 
 class Package(Soft):
     ID = 'wget'
-    BIN = ['wget.exe']
 
     def _prepare(self):
         data = self.data

@@ -5,7 +5,6 @@ from lxml import etree
 
 class Package(Soft):
     ID = 'sumatrapdf'
-    SilentArgs = '/S'
 
     def _prepare(self):
         data = self.data

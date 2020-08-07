@@ -41,3 +41,23 @@ class Package(Soft):
         links = ['https://github.com' +
                  item.xpath('./a')[0].values()[0] for item in assests]
         return text, links, date
+
+    @staticmethod
+    def launchpad(url: str):
+        if re.match('https?://launchpad.net/.*/trunk', url):
+            # input: https://launchpad.net/veracrypt/trunk
+            # output: [('VeraCrypt 1.24', 'https://launc.../+milestone/1.24', '2020-03-10')...]
+            page = etree.HTML(GetPage(url))
+            items = [item.xpath('.//td') for item in page.xpath(
+                '//*[@id="milestone-rows"]')[0].xpath('.//tr')]
+            items = [(item[0].getchildren()[1].text, 'https://launchpad.net' +
+                      item[0].getchildren()[1].values()[0],
+                      items[0][2].getchildren()[0].values()[0][:10]) for item in items]
+            return items
+        elif re.match('https?://launchpad.net/.*/\\+milestone/.*', url):
+            # input: https://launchpad.net/veracrypt/+milestone/1.24-update6
+            # output: ['https://launch...ypt-1.24-Update6-sha512sum.txt', 'https://launchp...sum.txt']
+            page = etree.HTML(GetPage(url))
+            items = [item.xpath('.//strong')[0] for item in page.xpath(
+                '//*[@id="downloads"]')[0].xpath('.//tbody//tr')]
+            return [dict(item.getchildren()[0].items())['href'] for item in items]
