@@ -2,7 +2,7 @@ import json
 import re
 
 from lxml import etree
-from mpkg.common import Soft
+from mpkg.common import Soft, soft_data
 from mpkg.utils import GetPage
 
 
@@ -61,3 +61,31 @@ class Package(Soft):
             items = [item.xpath('.//strong')[0] for item in page.xpath(
                 '//*[@id="downloads"]')[0].xpath('.//tbody//tr')]
             return [dict(item.getchildren()[0].items())['href'] for item in items]
+
+    @staticmethod
+    def scoop(url='', data='', getbin=False, detail=True):
+        soft = soft_data()
+        if not data:
+            data = json.loads(GetPage(url))
+        else:
+            data = json.loads(data)
+        soft.id = url.split('/')[-1].split('.json')[0]
+        if data.get('version'):
+            soft.ver = data['version']
+        if data.get('architecture'):
+            for arch in ['64bit', '32bit']:
+                if data.get('architecture').get(arch):
+                    soft.arch[arch] = data['architecture'][arch]['url']
+                    if data['architecture'][arch].get('hash'):
+                        soft.sha256[arch] = data['architecture'][arch]['hash']
+        elif data.get('url'):
+            soft.links = data['url']
+            if data.get('hash'):
+                soft.sha256 = data['hash']
+        if getbin and data.get('bin'):
+            soft.bin = data['bin']
+        if detail and data.get('homepage'):
+            soft.homepage = data['homepage']
+        if detail and data.get('description'):
+            soft.description = data['description']
+        return soft
