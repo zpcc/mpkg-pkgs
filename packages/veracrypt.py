@@ -1,6 +1,6 @@
 from mpkg.common import Soft
 from mpkg.load import Load
-from mpkg.utils import GetPage
+from mpkg.utils import GetPage, SearchSum
 
 
 class Package(Soft):
@@ -17,8 +17,6 @@ class Package(Soft):
         link = [link for link in links if link.endswith(
             '.exe') and 'Setup' in link][0].replace('%20', ' ')
         data.changelog = [u for u in links if u.endswith('README.TXT')][0]
-        txt = GetPage([u for u in links if u.endswith('sha256sum.txt')][0])
-        sha256 = [line for line in txt.splitlines() if line.endswith(
-            link.split('/')[-1])][0].split(' ')[0]
+        sumurl = [u for u in links if u.endswith('sha256sum.txt')][0]
         data.links = [link]
-        data.sha256 = {'32bit': sha256, '64bit': sha256}
+        data.sha256 = SearchSum(data.links, sumurl)
