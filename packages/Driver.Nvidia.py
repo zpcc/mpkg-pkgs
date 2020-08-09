@@ -22,6 +22,8 @@ class Package(Driver):
                        input('only download Studio Driver ? (press enter means no, input 1 means yes): '))
 
     def _prepare(self):
+        if not self.url:
+            return
         data = self.data
         r = GetPage(self.url, UA=UA)
         L = etree.HTML(r).xpath('//*[@id="driverList"]')

@@ -38,6 +38,8 @@ class Package(Driver):
         self.setconfig('driverKeyword')
 
     def _prepare(self):
+        if not self.url:
+            return
         data = self.data
         L = getIntelList(self.url)
         item = sorted([x for x in L if self.kw in x[0]],
