@@ -63,7 +63,22 @@ class Package(Soft):
             return [dict(item.getchildren()[0].items())['href'] for item in items]
 
     @staticmethod
-    def scoop(url='', data='', getbin=False, detail=True):
+    def scoop(url='', data='', getbin=False, detail=True, scoop_rename=False):
+
+        def rename(url):
+            def str_rename(url):
+                len_ = len(url.split('#/'))
+                if len_ > 1:
+                    return '#/'.join(url.split('#/')[:-1])
+                else:
+                    return url.split('#/')[0]
+            if isinstance(url, str):
+                return str_rename(url)
+            elif isinstance(url, list):
+                return [str_rename(item) for item in url]
+            else:
+                return url
+
         soft = soft_data()
         if not data:
             data = json.loads(GetPage(url))
@@ -72,16 +87,21 @@ class Package(Soft):
         soft.id = url.split('/')[-1].split('.json')[0]
         if data.get('version'):
             soft.ver = data['version']
-        if data.get('architecture'):
+        if data.get('url'):
+            url = data['url'] if scoop_rename else rename(data['url'])
+            url = [url] if isinstance(url, str) else url
+            soft.links = url
+            if data.get('hash'):
+                sha256 = [data['hash']] if isinstance(
+                    data['hash'], str) else data['hash']
+                soft.sha256 = sha256
+        elif data.get('architecture'):
             for arch in ['64bit', '32bit']:
                 if data.get('architecture').get(arch):
-                    soft.arch[arch] = data['architecture'][arch]['url']
+                    url = data['architecture'][arch]['url']
+                    soft.arch[arch] = url if scoop_rename else rename(url)
                     if data['architecture'][arch].get('hash'):
                         soft.sha256[arch] = data['architecture'][arch]['hash']
-        elif data.get('url'):
-            soft.links = data['url']
-            if data.get('hash'):
-                soft.sha256 = data['hash']
         if getbin and data.get('bin'):
             soft.bin = data['bin']
         if detail and data.get('homepage'):
