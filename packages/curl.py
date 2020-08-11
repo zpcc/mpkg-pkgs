@@ -7,7 +7,7 @@ class Package(Soft):
 
     def _prepare(self):
         data = self.data
-        data.bin = ['curl.exe']
+        data.bin = ['bin\\curl.exe']
         links = {'32bit': 'https://curl.haxx.se/windows/dl-{ver}/curl-{ver}-win32-mingw.zip',
                  '64bit': 'https://curl.haxx.se/windows/dl-{ver}/curl-{ver}-win64-mingw.zip'}
         url = 'https://curl.haxx.se/windows/'
