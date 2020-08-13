@@ -21,4 +21,4 @@ jobs:
           mpkg set debug yes
           mpkg set unsafe yes
           mpkg load "https://github.com/zpcc/mpkg-pkgs/raw/master/parser/common.py->common-zpcc.py" --config
-          git diff HEAD^ HEAD --diff-filter=ACMR --name-only|awk '/packages\/.*[\.py|\.json]/{print}'|xargs -I {} mpkg load "https://github.com/$repo/raw/master/{}"
+          git diff HEAD^ HEAD --diff-filter=ACMR --name-only|awk '/packages\/.*[\.py|\.json]$/{print}'|xargs -I {} mpkg load "https://github.com/$repo/raw/master/{}"
