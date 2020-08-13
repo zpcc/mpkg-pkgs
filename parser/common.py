@@ -63,7 +63,7 @@ class Package(Soft):
             return [dict(item.getchildren()[0].items())['href'] for item in items]
 
     @staticmethod
-    def scoop(url='', data='', getbin=False, detail=True, scoop_rename=False):
+    def scoop(url='', data='', getbin=False, getlnk=False, detail=True, scoop_rename=False):
 
         def rename(url):
             def str_rename(url):
@@ -78,6 +78,27 @@ class Package(Soft):
                 return [str_rename(item) for item in url]
             else:
                 return url
+
+        def get_bin(data):
+            if getbin and data.get('bin'):
+                if not isinstance(data['bin'], list):
+                    return [data['bin']]
+                return data['bin']
+            else:
+                return {}
+
+        def get_lnk(data):
+            def tolnk(list_):
+                if len(list_) == 2:
+                    list_ = list_+['']
+                else:
+                    list_[2] = ' '+list_[2]
+                return f'MPKGLNK|{list_[1]}|{list_[0]}|{list_[2]}'
+            lnk_list = data.get('shortcuts')
+            if getlnk and lnk_list:
+                return [tolnk(lnk) for lnk in lnk_list]
+            else:
+                return []
 
         soft = soft_data()
         if not data:
@@ -95,15 +116,28 @@ class Package(Soft):
                 sha256 = [data['hash']] if isinstance(
                     data['hash'], str) else data['hash']
                 soft.sha256 = sha256
-        elif data.get('architecture'):
+            if get_bin(data):
+                soft.bin = get_bin(data)
+            if get_lnk(data) and not soft.bin:
+                soft.bin = []
+            for lnk in get_lnk(data):
+                soft.bin.append(lnk)
+        if data.get('architecture'):
             for arch in ['64bit', '32bit']:
                 if data.get('architecture').get(arch):
-                    url = data['architecture'][arch]['url']
-                    soft.arch[arch] = url if scoop_rename else rename(url)
-                    if data['architecture'][arch].get('hash'):
-                        soft.sha256[arch] = data['architecture'][arch]['hash']
-        if getbin and data.get('bin'):
-            soft.bin = data['bin']
+                    data_ = data['architecture'][arch]
+                    if not data.get('url'):
+                        url = data_['url']
+                        soft.arch[arch] = url if scoop_rename else rename(url)
+                        if soft.bin.get('hash'):
+                            soft.sha256[arch] = data_['hash']
+                    if get_bin(data_):
+                        soft.bin[arch] = get_bin(data_)
+                    if get_lnk(data_) and not soft.bin.get(arch):
+                        soft.bin[arch] = []
+                    for lnk in get_lnk(data_):
+                        soft.bin[arch].append(lnk)
+
         if detail and data.get('homepage'):
             soft.homepage = data['homepage']
         if detail and data.get('description'):
