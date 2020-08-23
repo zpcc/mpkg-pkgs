@@ -28,7 +28,12 @@ class Package(Soft):
             return result
 
     @staticmethod
-    def github(url: str):
+    def github(url: str, getall=False):
+        if getall:
+            data = json.loads(
+                GetPage(f'https://api.github.com/repos/{url}/releases'))
+            return [(rel['name'], [asset['browser_download_url'] for asset in rel['assets']],
+                     rel['published_at'][:10]) for rel in data]
         # input: https://github.com/git-for-windows/git/releases/latest
         # output: ('Git for Windows 2.27.0', ['https://github.com/git-for-wind...], '2020-06-01')
         page = etree.HTML(GetPage(url))

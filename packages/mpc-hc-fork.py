@@ -8,9 +8,10 @@ class Package(Soft):
     def _prepare(self):
         data = self.data
         parser = Load('http/common-zpcc.py', sync=False)[0][0].github
-        url = 'https://github.com/clsid2/mpc-hc/releases/latest'
-        header, links, data.date = parser(url)
-        data.changelog = url
+        rel = [rel for rel in parser(
+            'clsid2/mpc-hc', getall=True) if rel[0] != 'Development build'][0]
+        header, links, data.date = rel
+        data.changelog = 'https://github.com/clsid2/mpc-hc/releases'
         data.ver = header.split(' ')[-1]
         for link in links:
             if link.endswith('.x64.exe'):
