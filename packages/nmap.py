@@ -8,8 +8,8 @@ class Package(Soft):
     def _prepare(self):
         data = self.data
         data.args = '/S'
-        link = ['https://nmap.org/dist/nmap-{ver}-setup.exe']
+        links = ['https://nmap.org/dist/nmap-{ver}-setup.exe']
         url = 'https://nmap.org/download.html'
         data.changelog = 'https://nmap.org/changelog.html'
         data.ver = Search(url, 'nmap-([\\d.]+)-setup.exe')
-        data.links = Search(links=link, ver=data.ver)
+        data.links = Search(links=links, ver=data.ver)

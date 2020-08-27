@@ -13,11 +13,11 @@ class Package(Soft):
                "pdffonts.exe", "pdfdetach.exe", "pdftotext.exe", "pdfinfo.exe", "pdftops.exe"]
         data.bin = {'32bit': ['bin32\\'+file for file in Bin],
                     '64bit': ['bin64\\'+file for file in Bin]}
-        #link = ['https://dl.xpdfreader.com/xpdf-tools-win-{ver}.zip']
-        link = [
+        #links = ['https://dl.xpdfreader.com/xpdf-tools-win-{ver}.zip']
+        links = [
             'https://xpdfreader-dl.s3.amazonaws.com/xpdf-tools-win-{ver}.zip']
         url = 'https://www.xpdfreader.com/download.html'
         data.ver = Search(url, 'Current version:\\s*([^\\s<]+)')
-        data.links = Search(links=link, ver=data.ver)
+        data.links = Search(links=links, ver=data.ver)
         date = Search(url, 'Released:\\s*([\\S ]*)<')
         data.date = time.strftime('%Y-%m-%d', time.strptime(date, '%Y %b %d'))
