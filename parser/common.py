@@ -28,12 +28,14 @@ class Package(Soft):
             return result
 
     @staticmethod
-    def github(url: str, getall=False):
+    def github(url: str, getall=False, regex='.*', raw=False):
         if getall:
-            data = json.loads(
-                GetPage(f'https://api.github.com/repos/{url}/releases'))
+            rels = [rel for rel in json.loads(GetPage(
+                f'https://api.github.com/repos/{url}/releases')) if re.match(regex, rel['name'])]
+            if raw:
+                return rels
             return [(rel['name'], [asset['browser_download_url'] for asset in rel['assets']],
-                     rel['published_at'][:10]) for rel in data]
+                     rel['published_at'][:10]) for rel in rels]
         # input: https://github.com/git-for-windows/git/releases/latest
         # output: ('Git for Windows 2.27.0', ['https://github.com/git-for-wind...], '2020-06-01')
         page = etree.HTML(GetPage(url))
