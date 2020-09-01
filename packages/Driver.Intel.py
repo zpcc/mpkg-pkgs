@@ -42,8 +42,7 @@ class Package(Driver):
             return
         data = self.data
         L = getIntelList(self.url)
-        item = sorted([x for x in L if self.kw in x[0]],
-                      key=lambda x: x[3], reverse=True)[0]
+        item = [x for x in L if self.kw in x[0]][0]
         date = item[4].split('-')
         data.date = '-'.join([date[-1]]+date[:-1])
         data.ver = item[3]
