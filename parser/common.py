@@ -130,6 +130,10 @@ class Package(Soft):
             for lnk in get_lnk(data):
                 soft.bin.append(lnk)
         if data.get('architecture'):
+            bin_common = []
+            if isinstance(soft.bin, list):
+                bin_common = soft.bin
+                soft.bin = {}
             for arch in ['64bit', '32bit']:
                 if data.get('architecture').get(arch):
                     data_ = data['architecture'][arch]
@@ -139,7 +143,9 @@ class Package(Soft):
                         if soft.bin.get('hash'):
                             soft.sha256[arch] = data_['hash']
                     if get_bin(data_):
-                        soft.bin[arch] = get_bin(data_)
+                        soft.bin[arch] = get_bin(data_) + bin_common
+                    elif bin_common:
+                        soft.bin[arch] = bin_common
                     if get_lnk(data_) and not soft.bin.get(arch):
                         soft.bin[arch] = []
                     for lnk in get_lnk(data_):
