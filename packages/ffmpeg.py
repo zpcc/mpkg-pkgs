@@ -14,8 +14,8 @@ class Package(Soft):
             '64bit': 'https://www.gyan.dev/ffmpeg/builds/packages/ffmpeg-{ver}-full_build.zip'}
         url = 'https://www.gyan.dev/ffmpeg/builds/packages/'
         data.changelog = 'https://ffmpeg.org/index.html#news'
-        data.ver = Search(
-            url, 'ffmpeg-([\\d.]+)-full_build.zip</a>', reverse=True)
-        data.arch = Search(links=links, ver=data.ver)
-        data.date = Search(
-            url, 'ffmpeg-[\\d.]+-full_build.zip</a>[ ]+(\\S*)', reverse=True)
+        text = Search(
+            url, 'ffmpeg-([\\d.-]+)-full_build.zip</a>', reverse=True)
+        data.ver = text.split('-')[0]
+        data.arch = Search(links=links, ver=text)
+        data.date = '-'.join(text.split('-')[1:])
