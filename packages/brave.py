@@ -10,6 +10,7 @@ class Package(Soft):
         data = self.data
         parser = Load('http/common-zpcc.py', sync=False)[0][0].github
         url = 'https://github.com/brave/brave-browser/raw/master/CHANGELOG_DESKTOP.md'
+        data.changelog = 'https://github.com/brave/brave-browser/blob/master/CHANGELOG_DESKTOP.md'
         data.ver = Search(url, r'(?m)^## \[([\d.]*)\]')
         _, links, data.date = parser(
             f'https://github.com/brave/brave-browser/releases/tag/v{data.ver}')
