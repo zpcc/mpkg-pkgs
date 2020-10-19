@@ -20,6 +20,7 @@ class Package(Soft):
         table = [[text.strip() for text in tr]
                  for tr in [list(tr.itertext()) for tr in table.xpath('.//tr')]]
         active = [tr[0] for tr in table if 'bugfix' in tr]
+        data.ver = sorted(active, key=lambda x: int(x.split('.')[1]))[-1]
         for ver in active:
             soft = soft_data()
             soft.id = f'python{ver}'
