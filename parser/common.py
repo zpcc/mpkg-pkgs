@@ -24,7 +24,7 @@ class Package(Soft):
             folers = etree.HTML(GetPage(url)).xpath('//*[@class="folder "]')
             files = etree.HTML(GetPage(url)).xpath('//*[@class="file "]')
             result = [(item.xpath('.//span')[0].text,
-                       item.xpath('.//abbr')[0].text) for item in (folers+files)]
+                       item.xpath('.//abbr')[0].values()[0][:10]) for item in (folers+files)]
             return result
 
     @staticmethod
