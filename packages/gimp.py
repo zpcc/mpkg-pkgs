@@ -1,5 +1,6 @@
+from lxml import etree
 from mpkg.common import Soft
-from mpkg.utils import Search
+from mpkg.utils import GetPage, Search
 
 
 class Package(Soft):
@@ -9,10 +10,10 @@ class Package(Soft):
         data = self.data
         data.args = '/VERYSILENT /NORESTART /SUPPRESSMSGBOXES /SP-'
         data.changelog = 'https://www.gimp.org/release-notes/'
-        url = 'https://download.gimp.org/mirror/pub/gimp/'
-        v_ = Search(url, 'v([\\d.]+)', reverse=True)
-        url2 = f'{url}v{v_}/windows/'
-        v = Search(url2, 'gimp-([\\d.]+)-setup[\\d-]*?.exe', reverse=True)
+        url = 'https://www.gimp.org/'
+        v = etree.HTML(GetPage(url)).xpath('//*[@id="ver"]')[0].text
+        v_ = '.'.join(v.split('.')[:2])
+        url2 = f'https://download.gimp.org/mirror/pub/gimp/v{v_}/windows/'
         v2 = Search(url2, f'gimp-{v}-setup-([\\d]+).exe', findall=True)
         if v2:
             v2 = v2[-1]
