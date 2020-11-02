@@ -1,7 +1,5 @@
-import time
-
 from mpkg.common import Soft
-from mpkg.utils import Search
+from mpkg.load import Load
 
 
 class Package(Soft):
@@ -10,12 +8,11 @@ class Package(Soft):
     def _prepare(self):
         data = self.data
         data.bin = [r'bin\ffmpeg.exe', r'bin\ffplay.exe', r'bin\ffprobe.exe']
-        links = {
-            '64bit': 'https://www.gyan.dev/ffmpeg/builds/packages/ffmpeg-{ver}-full_build.zip'}
-        url = 'https://www.gyan.dev/ffmpeg/builds/packages/'
+        parser = Load('http/common-zpcc.py', sync=False)[0][0].github
+        url = 'https://github.com/GyanD/codexffmpeg/releases/latest'
+        header, links, data.date = parser(url)
+        data.ver = header.split(' ')[1]
         data.changelog = 'https://ffmpeg.org/index.html#news'
-        text = Search(
-            url, 'ffmpeg-([\\d.-]+)-full_build.zip</a>', reverse=True)
-        data.ver = text.split('-')[0]
-        data.arch = Search(links=links, ver=text)
-        data.date = '-'.join(text.split('-')[1:])
+        # 'ffmpeg-([\\d.-]+)-full_build-shared.(zip|7z)</a>'
+        link = [link for link in links if 'full_build-shared.7z' in link][0]
+        data.arch = {'64bit': link}
