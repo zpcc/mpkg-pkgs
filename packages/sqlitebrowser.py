@@ -17,10 +17,11 @@ class Package(Soft):
         data.changelog = url
         data.ver = header.split(' ')[-1]
         for link in links:
-            if link.endswith('-win64.msi'):
-                data.arch['64bit'] = link
-            elif link.endswith('-win32.msi'):
-                data.arch['32bit'] = link
+            if link.endswith('.msi'):
+                if '-win64' in link:
+                    data.arch['64bit'] = link
+                elif '-win32' in link:
+                    data.arch['32bit'] = link
         for k, v in data.arch.items():
             sha256 = Search(url, v.split('/')[-1] +
                             '\\s*<ul>\\s*<li>(\\S*)</li>')

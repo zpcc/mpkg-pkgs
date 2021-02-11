@@ -34,4 +34,14 @@ class Package(Soft):
             soft.arch = {'32bit': f'https://www.python.org/ftp/python/{soft.ver}/python-{soft.ver}.exe',
                          '64bit': f'https://www.python.org/ftp/python/{soft.ver}/python-{soft.ver}-amd64.exe'}
             soft.changelog = f'https://docs.python.org/release/{soft.ver}/whatsnew/changelog.html#changelog'
+            relpage = etree.HTML(GetPage(
+                'https://www.python.org/downloads/release/python-{0}/'.format(soft.ver.replace('.', ''))))
+            files = relpage.xpath('//tbody/tr')
+            md5 = {}
+            for tr in files:
+                td = tr.xpath('./td')
+                url = td[0].xpath('./a')[0].values()[0]
+                md5[url] = td[3].text
+            soft.sha256 = {'32bit': 'md5:' + md5[soft.arch['32bit']],
+                           '64bit': 'md5:' + md5[soft.arch['64bit']]}
             self.packages.append(soft.asdict(simplify=True))

@@ -14,5 +14,5 @@ class Package(Soft):
                  '64bit': 'https://download.wireguard.com/windows-client/wireguard-amd64-{ver}.msi'}
         url = 'https://build.wireguard.com/distros.json'
         data.ver = json.loads(GetPage(url))['windowsdl-win']['version']
-        data.changelog = f'https://www.wireshark.org/docs/relnotes/wireshark-{data.ver}.html'
+        data.changelog = 'https://git.zx2c4.com/wireguard-windows/log/'
         data.arch = Search(links=links, ver=data.ver)
