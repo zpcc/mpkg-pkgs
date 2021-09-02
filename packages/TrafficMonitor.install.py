@@ -16,7 +16,7 @@ class Package(Soft):
         data.changelog = url
         data.ver = header.split('V')[1]
         for link in links:
-            if link.endswith('_x64.7z'):
+            if '_x64_without_temperature' in link:
                 data.arch['64bit'] = link
-            elif link.endswith('_x86.7z'):
+            elif '_x86_without_temperature' in link:
                 data.arch['32bit'] = link

@@ -11,7 +11,7 @@ class Package(Soft):
         data.changelog = 'https://golang.org/doc/devel/release.html'
         url = 'https://golang.org/dl/'
         L = etree.HTML(GetPage(url)).xpath(
-            '//*[@class="codetable"]')[0].xpath('.//tr')
+            '//*[@class="downloadtable"]')[0].xpath('.//tr')
         table = [[''.join(list(y.itertext()))
                   for y in x.xpath('.//td')] for x in L]
         for item in table:

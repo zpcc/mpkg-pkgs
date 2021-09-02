@@ -11,7 +11,10 @@ class Package(Soft):
         parser = Load('http/common-zpcc.py', sync=False)[0][0].launchpad
         url = 'https://launchpad.net/veracrypt/trunk'
         data.changelog = 'https://ultradefrag.net/HISTORY.TXT'
-        ver, url, data.date = parser(url)[0]
+        L = parser(url)
+        if L[0][0] == 'VeraCrypt 1.24-update8':
+            L = L[1:]
+        ver, url, data.date = L[0]
         data.ver = ver.split(' ')[1]
         links = parser(url)
         link = [link for link in links if link.endswith(
