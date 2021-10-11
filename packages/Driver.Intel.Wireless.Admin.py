@@ -30,7 +30,7 @@ class Package(Soft):
                if b'Download Here' in etree.tostring(x)]
         if len(tmp) == 1:
             url = tmp[0].values()[0]
-            data.changelog = url
+            data.changelog = site+url
             drivers, version, date = getIntelDrivers(site+url)
             data.links = sorted(drivers, reverse=True)
             data.date = date

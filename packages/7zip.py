@@ -1,5 +1,6 @@
 from mpkg.common import Soft
 from mpkg.load import Load
+from mpkg.utils import Search
 
 
 class Package(Soft):
@@ -9,12 +10,13 @@ class Package(Soft):
         data = self.data
         data.args = '/S'
         parser = Load('http/common-zpcc.py', sync=False)[0][0].sourceforge
-        url = 'https://sourceforge.net/projects/sevenzip/files/7-Zip/'
         data.changelog = 'https://www.7-zip.org/history.txt'
-        ver, data.date = parser(url)[0]
-        data.ver = ver
-        links = [parser(url+ver+'/'+item[0]+'/download')
-                 for item in parser(url+ver)]
+        data.ver = Search('https://www.7-zip.org/download.html',
+                          'Download 7-Zip ([\\d.]+)')
+        url = 'https://sourceforge.net/projects/sevenzip/files/7-Zip/'+data.ver
+        L = parser(url)
+        data.date = L[0][1]
+        links = [parser(url+'/'+item[0]+'/download') for item in L]
         for link in links:
             if link.endswith('.exe'):
                 if link.endswith('-x64.exe'):

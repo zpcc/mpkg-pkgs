@@ -1,6 +1,6 @@
 from mpkg.common import Soft
 from mpkg.load import Load
-from mpkg.utils import Search
+from mpkg.utils import GetPage, Search
 
 
 class Package(Soft):
@@ -17,3 +17,7 @@ class Package(Soft):
         arch = {'32bit': 'https://download.calibre-ebook.com/{ver}/calibre-{ver}.msi',
                 '64bit': 'https://download.calibre-ebook.com/{ver}/calibre-64bit-{ver}.msi'}
         data.arch = Search(links=arch, ver=data.ver)
+        for k, v in data.arch.items():
+            data.sha256[k] = 'sha512:' + \
+                GetPage(
+                    f'https://calibre-ebook.com/signatures/{v.split("/")[-1]}.sha512')

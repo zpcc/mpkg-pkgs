@@ -12,7 +12,7 @@ class Package(Soft):
         # https://github.com/sumatrapdfreader/sumatrapdf/releases/latest
         data.changelog = 'https://www.sumatrapdfreader.org/docs/Version-history.html'
         url = 'https://www.sumatrapdfreader.org/download-free-pdf-viewer.html'
-        links = ['https://www.sumatrapdfreader.org'+x.values()[0]
+        links = [x.values()[0]
                  for x in etree.HTML(GetPage(url)).xpath('//table//a')]
         for link in links:
             if link.endswith('.exe'):

@@ -37,9 +37,10 @@ class Package(Driver):
         data.date = time.strftime(
             '%Y-%m-%d', time.strptime(r[3].text, '%B %d, %Y'))
         data.ver = r[2].text
-        data.changelog = f'https://us.download.nvidia.com/Windows/{data.ver}/{data.ver}-win10-win8-win7-release-notes.pdf'
         result = 'https:'+r[1].xpath('.//a')[0].values()[0]
-        link = etree.HTML(GetPage(result, UA=UA)).xpath(
-            '//*[@id="lnkDwnldBtn"]')[0].values()[0]
+        r2 = etree.HTML(GetPage(result, UA=UA))
+        link = r2.xpath('//*[@id="lnkDwnldBtn"]')[0].values()[0]
+        data.changelog = r2.xpath(
+            '//*[@id="tab3_content"]//li/a')[0].values()[0]
         data.arch = {
             '64bit': 'https://us.download.nvidia.com'+link.split('confirmation.php?url=')[1].split('&')[0]}

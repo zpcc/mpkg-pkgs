@@ -8,8 +8,8 @@ class Package(Soft):
     def _prepare(self):
         data = self.data
         data.bin = ['MPKG-PORTABLE']
-        #loc = Path(GetConfig('files_dir')) / 'shimexe_kiennq' / 'shim.exe'
-        #data.notes = 'please set up shimexe manually'
+        loc = '%MPKG:files_dir%\\shimexe_kiennq\\shim.exe'
+        data.cmd['start'] = f'mpkg set shimexe "{loc}"'
         parser = Load('http/common-zpcc.py', sync=False)[0][0].github
         url = 'https://github.com/kiennq/scoop-better-shimexe/releases/latest'
         data.ver, links, data.date = parser(url)
