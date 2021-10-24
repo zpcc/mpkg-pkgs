@@ -10,7 +10,7 @@ class Package(Soft):
         data = self.data
         data.args = '/S'
         parser = Load('http/common-zpcc.py', sync=False)[0][0].github
-        url = 'https://github.com/notepad-plus-plus/notepad-plus-plus/releases'
+        url = 'https://github.com/notepad-plus-plus/notepad-plus-plus/releases/latest'
         header, links, data.date = parser(url)
         data.changelog = url
         data.ver = header.split(' ')[-1]

@@ -40,14 +40,12 @@ class Package(Soft):
         # output: ('Git for Windows 2.27.0', ['https://github.com/git-for-wind...], '2020-06-01')
         page = etree.HTML(GetPage(url))
         #release=page.xpath('//div[contains(@class, "release-main-section")]')[0]
-        header = page.xpath('//*[@class="release-header"]')[0]
-        text = header.xpath('./div/div/a')[0].text
-        date = header.xpath('.//relative-time')[0].values()[0][:10]
-        assests = page.xpath(
-            '//*[@class="Box Box--condensed mt-3"]/div')[0].xpath('.//div')
+        title = page.xpath('//*[@class="flex-1"]/h1')[0].text
+        date = page.xpath('//time-ago')[0].values()[0][:10]
+        assests = page.xpath('//*[@class="Box Box--condensed mt-3"]//li')
         links = ['https://github.com' +
                  item.xpath('./a')[0].values()[0] for item in assests]
-        return text, links, date
+        return title, links, date
 
     @staticmethod
     def launchpad(url: str):

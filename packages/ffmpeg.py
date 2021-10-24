@@ -18,4 +18,4 @@ class Package(Soft):
         link = [link for link in links if 'full_build-shared.7z' in link][0]
         data.arch = {'64bit': link}
         data.sha256 = {'64bit': GetPage(
-            'https://www.gyan.dev/ffmpeg/builds/sha256-release-full-shared')}
+            'https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-full-shared.7z.sha256')}
