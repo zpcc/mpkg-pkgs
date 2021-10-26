@@ -41,7 +41,7 @@ class Package(Soft):
         page = etree.HTML(GetPage(url))
         #release=page.xpath('//div[contains(@class, "release-main-section")]')[0]
         title = page.xpath('//*[@class="flex-1"]/h1')[0].text
-        date = page.xpath('//time-ago')[0].values()[0][:10]
+        date = page.xpath('//*[@datetime]')[0].values()[0][:10]
         assests = page.xpath('//*[@class="Box Box--condensed mt-3"]//li')
         links = ['https://github.com' +
                  item.xpath('./a')[0].values()[0] for item in assests]
