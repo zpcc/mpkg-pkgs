@@ -12,13 +12,13 @@ class Package(Soft):
         url = 'https://launchpad.net/veracrypt/trunk'
         data.changelog = 'https://ultradefrag.net/HISTORY.TXT'
         L = parser(url)
-        if L[0][0] == 'VeraCrypt 1.24-update8':
-            L = L[1:]
         ver, url, data.date = L[0]
         data.ver = ver.split(' ')[1]
         links = parser(url)
+        #https://launchpad.net/veracrypt/trunk/1.25.4/+download/VeraCrypt_Setup_x64_1.25.4.msi
+        #https://www.veracrypt.fr/en/Downloads.html
         link = [link for link in links if link.endswith(
-            '.exe') and 'Setup' in link][0].replace('%20', ' ')
+            '.exe') and 'Setup' in link and 'TESTSIGNING' not in link][0].replace('%20', ' ')
         data.changelog = [u for u in links if u.endswith('README.TXT')][0]
         sumurl = [u for u in links if u.endswith('sha256sum.txt')][0]
         data.links = [link]

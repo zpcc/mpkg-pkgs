@@ -3,7 +3,7 @@ from mpkg.load import Load
 
 
 class Package(Soft):
-    ID = 'TrafficMonitor.install'
+    ID = 'TrafficMonitor_Lite.install'
 
     def _prepare(self):
         data = self.data
@@ -16,7 +16,7 @@ class Package(Soft):
         data.changelog = url
         data.ver = header.split('V')[1]
         for link in links:
-            if '_x64_without_temperature' in link:
+            if '_x64_Lite' in link:
                 data.arch['64bit'] = link
-            elif '_x86_without_temperature' in link:
+            elif '_x86_Lite' in link:
                 data.arch['32bit'] = link

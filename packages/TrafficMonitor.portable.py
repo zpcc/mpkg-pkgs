@@ -3,7 +3,7 @@ from mpkg.load import Load
 
 
 class Package(Soft):
-    ID = 'TrafficMonitor_T.portable'
+    ID = 'TrafficMonitor.portable'
 
     def _prepare(self):
         data = self.data
