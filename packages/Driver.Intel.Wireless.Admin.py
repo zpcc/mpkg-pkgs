@@ -1,5 +1,4 @@
 import time
-from urllib.parse import unquote
 
 from lxml import etree
 from mpkg.common import Soft
@@ -24,8 +23,9 @@ class Package(Soft):
     def _prepare(self):
         data = self.data
         site = 'https://www.intel.com'
+        data.description = 'IT Administrator Links for Intel® PROSet/Wireless Software'
         page = GetPage(
-            site+'/content/www/us/en/support/articles/000017246/network-and-i-o/wireless-networking.html')
+            site+'/content/www/us/en/support/articles/000017246/wireless/intel-wireless-products.html')
         tmp = [x for x in etree.HTML(page).xpath('//a')
                if b'Download Here' in etree.tostring(x)]
         if len(tmp) == 1:
