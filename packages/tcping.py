@@ -11,7 +11,10 @@ class Package(Soft):
         data.bin = ['tcping.exe']
         parser = Load('http/common-zpcc.py', sync=False)[0][0].github
         url = 'https://github.com/zpcc/tcping/releases/latest'
-        data.ver, _, data.date = parser(url)
-        arch = {'32bit': 'https://github.com/zpcc/tcping/releases/download/{ver}/tcping-windows-386-{ver}.zip',
-                '64bit': 'https://github.com/zpcc/tcping/releases/download/{ver}/tcping-windows-amd64-{ver}.zip'}
-        data.arch = Search(links=arch, ver=data.ver)
+        v, links, data.date = parser(url)
+        data.ver = v.replace('Release v', '')
+        for link in links:
+            if 'windows-amd64' in link:
+                data.arch['64bit'] = link
+            elif 'windows-386' in link:
+                data.arch['32bit'] = link
