@@ -1,0 +1,19 @@
+packages:
+    - id: firefox-esr-78
+      ver: 78.15.0
+      arch:
+          32bit: https://archive.mozilla.org/pub/firefox/releases/78.15.0esr/win32/en-US/Firefox%20Setup%2078.15.0esr.exe
+          64bit: https://archive.mozilla.org/pub/firefox/releases/78.15.0esr/win64/en-US/Firefox%20Setup%2078.15.0esr.exe
+      sha256:
+          32bit: 147a977ee3558c7ccb2076d4bc5651d3f5000a0417e98685807c6cf82cf11131
+          64bit: 754d823a4aa5059b5853bf3802b72b46c8767c9dbc83befbfba57964e02f3dbe
+    - id: ffmpeg-x86
+      ver: 4.3.1
+      arch:
+          32bit: https://web.archive.org/web/20200916091959/https://ffmpeg.zeranoe.com/builds/win32/static/ffmpeg-4.3.1-win32-static.zip
+      sha256:
+          32bit: 589e2dedd5bba34dede84c9513505768f4042a33b5bf21d90b97901da635a245
+      bin:
+          - bin\ffmpeg.exe
+          - bin\ffplay.exe
+          - bin\ffprobe.exe

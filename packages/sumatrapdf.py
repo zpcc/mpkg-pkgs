@@ -15,6 +15,8 @@ class Package(Soft):
         links = [x.values()[0]
                  for x in etree.HTML(GetPage(url)).xpath('//table//a')]
         for link in links:
+            if link.startswith('/'):
+                link = 'https://www.sumatrapdfreader.org' + link
             if link.endswith('.exe'):
                 if link.endswith('-64-install.exe'):
                     data.arch['64bit'] = link
