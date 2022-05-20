@@ -14,4 +14,4 @@ class Package(Soft):
         url = 'https://github.com/kiennq/scoop-better-shimexe/releases/latest'
         data.ver, links, data.date = parser(url)
         data.changelog = url
-        data.links = [link for link in links if '/shimexe-' in link]
+        data.links = [link for link in links if '/shimexe' in link]

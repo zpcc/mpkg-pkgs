@@ -1,5 +1,6 @@
 import re
 import time
+from datetime import datetime
 
 from lxml import etree
 from mpkg.common import Soft, soft_data
@@ -17,9 +18,10 @@ class Package(Soft):
                 if re.match('^\\d.[\\d.]+/', name)]
         page = etree.HTML(GetPage('https://devguide.python.org/'))
         table = page.xpath('//*[@id="status-of-python-branches"]//table')[0]
-        table = [[text.strip() for text in tr]
+        table = [[text.strip() for text in tr if text.strip()]
                  for tr in [list(tr.itertext()) for tr in table.xpath('.//tr')]]
-        active = [tr[0] for tr in table if 'bugfix' in tr]
+        active = [tr[0] for tr in table if 'bugfix' in tr
+                  and (datetime.today() - datetime.strptime(tr[3], '%Y-%m-%d')).days > 0]
         data.ver = sorted(active, key=lambda x: int(x.split('.')[1]))[-1]
         for ver in active:
             soft = soft_data()

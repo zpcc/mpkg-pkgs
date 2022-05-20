@@ -13,5 +13,7 @@ class Package(Soft):
         header, links, data.date = parser(url)
         data.changelog = 'https://workrave.org/blog/'
         data.ver = header.split(' ')[-1]
+        if data.ver.startswith('v'):
+            data.ver = data.ver[1:]
         data.links = [link for link in links if link.endswith(
             '.exe') and 'Debug' not in link]

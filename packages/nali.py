@@ -15,6 +15,8 @@ class Package(Soft):
         header, links, data.date = parser(url)
         data.changelog = url
         data.ver = header.split(' ')[-1]
+        if data.ver.startswith('v'):
+            data.ver = data.ver[1:]
         for link in links:
             if '-windows-amd64-' in link and link.endswith('.zip'):
                 data.arch['64bit'] = link

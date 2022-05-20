@@ -44,7 +44,7 @@ class Package(Soft):
         date = page.xpath('//*[@datetime]')[0].values()[0][:10]
         assests = page.xpath('//*[@class="Box Box--condensed mt-3"]//li')
         links = ['https://github.com' +
-                 item.xpath('./a')[0].values()[0] for item in assests]
+                 item.xpath('.//a')[0].values()[0] for item in assests]
         return title, links, date
 
     @staticmethod
