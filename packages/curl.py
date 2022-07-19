@@ -18,4 +18,4 @@ class Package(Soft):
         u = f'https://curl.se/windows/dl-{data.ver}/hashes.txt'
         for k, v in data.arch.items():
             fn = v.split('/')[-1]
-            data.sha256[k] = Search(u, f'SHA256\\({fn}\\)=\\s+(\\w+)')
+            data.sha256[k] = Search(u, f'SHA2?-?256\\({fn}\\)=\\s+(\\w+)')

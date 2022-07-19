@@ -17,3 +17,11 @@ packages:
           - bin\ffmpeg.exe
           - bin\ffplay.exe
           - bin\ffprobe.exe
+    - id: calibre-x86
+      ver: 5.44.0
+      date: "2022-06-17"
+      arch:
+          32bit: https://download.calibre-ebook.com/5.44.0/calibre-5.44.0.msi
+      sha256:
+          32bit: sha512:d68bd7fe2d3658356b1fae87d817c6f87c2d92702e4caf6c9155215737ef15a803c7b3dc2e8b5ae45ac0c336283194f6918bb34fe1a34b62998e53de2026a175
+      args: /quiet

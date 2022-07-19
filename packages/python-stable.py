@@ -16,8 +16,8 @@ class Package(Soft):
         texts = list(etree.HTML(GetPage(url)).xpath('//pre')[0].itertext())[2:]
         rels = [name[:-1] for name in texts[::2]
                 if re.match('^\\d.[\\d.]+/', name)]
-        page = etree.HTML(GetPage('https://devguide.python.org/'))
-        table = page.xpath('//*[@id="status-of-python-branches"]//table')[0]
+        page = etree.HTML(GetPage('https://devguide.python.org/versions/'))
+        table = page.xpath('//*[@id="status-of-python-versions"]//table')[0]
         table = [[text.strip() for text in tr if text.strip()]
                  for tr in [list(tr.itertext()) for tr in table.xpath('.//tr')]]
         active = [tr[0] for tr in table if 'bugfix' in tr
