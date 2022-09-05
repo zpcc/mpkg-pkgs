@@ -17,4 +17,10 @@ class Package(Soft):
         data.ver = Search(url, '<h4.*>([\\d.]+) \\(.*\\)</h4>')
         data.links = Search(links=links, ver=data.ver)
         date = Search(url, '<h4.*>[\\d.]+ \\((.*)\\)</h4>')
-        data.date = time.strftime('%Y-%m-%d', time.strptime(date, '%B %Y'))
+        try:
+            data.date = time.strftime('%Y-%m-%d', time.strptime(date, '%B %Y'))
+        except ValueError:
+            try:
+                data.date = time.strftime('%Y-%m-%d', time.strptime(date, '%b %Y'))
+            except Exception:
+                print('failed to parse date')

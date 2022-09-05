@@ -8,7 +8,8 @@ class Package(Soft):
 
     def _prepare(self):
         data = self.data
-        data.bin = [['gsudo.exe', 'sudo']]
+        data.bin = {'32bit': [['x86\\gsudo.exe', 'sudo']],
+                    '64bit': [['x64\\gsudo.exe', 'sudo']]}
         parser = Load('http/common-zpcc.py', sync=False)[0][0].github
         url = 'https://github.com/gerardog/gsudo/releases/latest'
         header, links, data.date = parser(url)
