@@ -44,6 +44,15 @@ class Package(Soft):
         title = page.xpath('//*[@class="flex-1"]/h1')[0].text
         date = page.xpath('//*[@datetime]')[0].values()[0][:10]
         assests = page.xpath('//*[@class="Box Box--condensed mt-3"]//li')
+        if not assests:
+            tag = page.xpath(
+                '//*[@class="Link--muted"]')[0].get('href').split('/')[-1]
+            repo_url = url.split('/releases/')[0]
+            page = etree.HTML(
+                GetPage(f'{repo_url}/releases/expanded_assets/{tag}'))
+            assests = page.xpath('//*[@class="Box Box--condensed mt-3"]//li')
+        if not assests:
+            raise Exception('parser error')
         links = ['https://github.com' +
                  item.xpath('.//a')[0].values()[0] for item in assests]
         return title, links, date
