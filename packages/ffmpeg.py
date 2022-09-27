@@ -11,7 +11,8 @@ class Package(Soft):
         data.bin = [r'bin\ffmpeg.exe', r'bin\ffplay.exe', r'bin\ffprobe.exe']
         parser = Load('http/common-zpcc.py', sync=False)[0][0].github
         url = 'https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-github'
-        header, links, data.date = parser(url)
+        github_url = GetPage(url, redirect_3xx=False)
+        header, links, data.date = parser(github_url)
         data.ver = header.split(' ')[1]
         data.changelog = 'https://ffmpeg.org/index.html#news'
         # 'ffmpeg-([\\d.-]+)-full_build-shared.(zip|7z)</a>'

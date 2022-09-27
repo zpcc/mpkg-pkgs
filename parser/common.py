@@ -39,22 +39,18 @@ class Package(Soft):
                      rel['published_at'][:10]) for rel in rels]
         # input: https://github.com/git-for-windows/git/releases/latest
         # output: ('Git for Windows 2.27.0', ['https://github.com/git-for-wind...], '2020-06-01')
-        page = etree.HTML(GetPage(url))
-        #release=page.xpath('//div[contains(@class, "release-main-section")]')[0]
-        title = page.xpath('//*[@class="flex-1"]/h1')[0].text
-        date = page.xpath('//*[@datetime]')[0].values()[0][:10]
-        assests = page.xpath('//*[@class="Box Box--condensed mt-3"]//li')
-        if not assests:
-            tag = page.xpath(
-                '//*[@class="Link--muted"]')[0].get('href').split('/')[-1]
-            repo_url = url.split('/releases/')[0]
-            page = etree.HTML(
-                GetPage(f'{repo_url}/releases/expanded_assets/{tag}'))
-            assests = page.xpath('//*[@class="Box Box--condensed mt-3"]//li')
-        if not assests:
+        owner, repo, tag = re.match(
+            r'https?:\/\/github.com\/(.*)\/(.*)\/releases\/(.*)', url).groups()
+        if tag.startswith('tag/'):
+            tag = tag.replace('tag/', 'tags/')
+        api_url = f'https://api.github.com/repos/{owner}/{repo}/releases/{tag}'
+        rel = GetPage(api_url, tojson=True)
+        title = rel['name']
+        date = rel['published_at'][:10]
+        assets = rel['assets']
+        links = [x['browser_download_url'] for x in assets]
+        if not links or not title:
             raise Exception('parser error')
-        links = ['https://github.com' +
-                 item.xpath('.//a')[0].values()[0] for item in assests]
         return title, links, date
 
     @staticmethod
