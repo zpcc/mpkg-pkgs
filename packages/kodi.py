@@ -11,7 +11,7 @@ class Package(Soft):
         arch = {'32bit': 'https://mirrors.kodi.tv/releases/windows/win32/kodi-{ver}-x86.exe',
                 '64bit': 'https://mirrors.kodi.tv/releases/windows/win64/kodi-{ver}-x64.exe'}
         url = 'https://mirrors.kodi.tv/releases/windows/win64/?C=N&O=A'
-        ver_ = Search(url, 'kodi-([\\d.]+-\\S+?)-x64.exe', reverse=True)
+        ver_ = Search(url, 'kodi-([\\d.]+-[A-z]+?)-x64.exe', reverse=True)
         data.ver = ver_.split('-')[0]
         data.arch = Search(links=arch, ver=ver_)
         for a in arch.keys():

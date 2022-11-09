@@ -12,7 +12,7 @@ class Package(Soft):
         parser = Load('http/common-zpcc.py', sync=False)[0][0].github
         tag = parser('sqlitebrowser/sqlitebrowser', getall=True,
                      regex=r'^DB Browser for SQLite [\d.]*$', raw=True)[0]['tag_name']
-        url = 'https://github.com/sqlitebrowser/sqlitebrowser/releases/' + tag
+        url = 'https://github.com/sqlitebrowser/sqlitebrowser/releases/tag/' + tag
         header, links, data.date = parser(url)
         data.changelog = url
         data.ver = header.split(' ')[-1]

@@ -7,6 +7,8 @@ packages:
       sha256:
           32bit: 147a977ee3558c7ccb2076d4bc5651d3f5000a0417e98685807c6cf82cf11131
           64bit: 754d823a4aa5059b5853bf3802b72b46c8767c9dbc83befbfba57964e02f3dbe
+      notes:
+          "run this to disable updates: reg add HKEY_LOCAL_MACHINE\\Software\\Policies\\Mozilla\\Firefox /v DisableAppUpdate /t REG_DWORD /d 1 /f"
     - id: ffmpeg-x86
       ver: 4.3.1
       arch:
@@ -25,3 +27,10 @@ packages:
       sha256:
           32bit: sha512:d68bd7fe2d3658356b1fae87d817c6f87c2d92702e4caf6c9155215737ef15a803c7b3dc2e8b5ae45ac0c336283194f6918bb34fe1a34b62998e53de2026a175
       args: /quiet
+    - id: wireshark-x86
+      ver: 3.6.9
+      arch:
+          32bit: https://www.wireshark.org/download/win32/Wireshark-win32-3.6.9.exe
+      sha256:
+          32bit: 7001e74df9867ae2381ff34e32f762ce79754b3e2336a7dc365b76fd35e01ebe
+      args: "/S /quicklaunchicon=no"
