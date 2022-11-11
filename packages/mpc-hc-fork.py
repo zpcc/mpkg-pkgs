@@ -9,7 +9,7 @@ class Package(Soft):
         data = self.data
         parser = Load('http/common-zpcc.py', sync=False)[0][0].github
         rel = [rel for rel in parser(
-            'clsid2/mpc-hc', getall=True) if rel[0].lower() != 'development build'][0]
+            'clsid2/mpc-hc', getall=True) if 'development 'not in rel[0].lower()][0]
         header, links, data.date = rel
         data.changelog = 'https://github.com/clsid2/mpc-hc/releases'
         data.ver = header.split(' ')[-1]

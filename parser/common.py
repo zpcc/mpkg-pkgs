@@ -45,7 +45,7 @@ class Package(Soft):
             tag = tag.replace('tag/', 'tags/')
         api_url = f'https://api.github.com/repos/{owner}/{repo}/releases/{tag}'
         rel = GetPage(api_url, tojson=True)
-        title = rel['name']
+        title = rel['name'] if rel['name'] else rel['tag_name']
         date = rel['published_at'][:10]
         assets = rel['assets']
         links = [x['browser_download_url'] for x in assets]
