@@ -34,3 +34,10 @@ packages:
       sha256:
           32bit: 7001e74df9867ae2381ff34e32f762ce79754b3e2336a7dc365b76fd35e01ebe
       args: "/S /quicklaunchicon=no"
+    - id: qbittorrent-x86
+      ver: 4.4.5
+      arch:
+          32bit: https://downloads.sourceforge.net/project/qbittorrent/qbittorrent-win32/qbittorrent-4.4.5/qbittorrent_4.4.5_setup.exe
+      sha256:
+          32bit: fec32f28bd20c917298bc774d206b8b7d7c2b7b1645bf1742b0ef8477c0866ab
+      args: "/S"

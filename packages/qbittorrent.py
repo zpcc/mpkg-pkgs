@@ -8,7 +8,7 @@ class Package(Soft):
 
     def _prepare(self):
         data = self.data
-        data.args='/S'
+        data.args = '/S'
         parser = Load('http/common-zpcc.py', sync=False)[0][0].sourceforge
         url = 'https://sourceforge.net/projects/qbittorrent/files/qbittorrent-win32/'
         data.changelog = 'https://www.qbittorrent.org/news.php'
@@ -16,9 +16,5 @@ class Package(Soft):
         data.ver = ver.split('qbittorrent-')[1]
         links = [parser(url+ver+'/'+item[0]+'/download')
                  for item in parser(url+ver)]
-        for link in links:
-            if link.endswith('.exe'):
-                if link.endswith('_x64_setup.exe'):
-                    data.arch['64bit'] = link
-                else:
-                    data.arch['32bit'] = link
+        data.arch['64bit'] = [
+            link for link in links if link.endswith('_x64_setup.exe')][0]
