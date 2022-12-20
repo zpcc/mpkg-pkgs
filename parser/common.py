@@ -1,9 +1,20 @@
 import json
+import os
 import re
 
 from lxml import etree
 from mpkg.common import Soft, soft_data
-from mpkg.utils import GetPage
+from mpkg.config import GetConfig
+from mpkg.utils import GetPage, MGet, logger
+
+
+def get_gh_token():
+    token = os.environ.get('GH_API_TOKEN')
+    if not token:
+        token = GetConfig('GH_API_TOKEN')
+    if token:
+        logger.debug('found gh token')
+    return token
 
 
 class Package(Soft):
@@ -30,9 +41,11 @@ class Package(Soft):
 
     @staticmethod
     def github(url: str, getall=False, regex='.*', raw=False):
+        token = get_gh_token()
+        headers = {"Authorization": f'Bearer {token}'} if token else {}
         if getall:
-            rels = [rel for rel in json.loads(GetPage(
-                f'https://api.github.com/repos/{url}/releases')) if re.match(regex, rel['name'])]
+            rels = [rel for rel in json.loads(MGet(
+                f'https://api.github.com/repos/{url}/releases', headers=headers).text) if re.match(regex, rel['name'])]
             if raw:
                 return rels
             return [(rel['name'], [asset['browser_download_url'] for asset in rel['assets']],
@@ -44,13 +57,13 @@ class Package(Soft):
         if tag.startswith('tag/'):
             tag = tag.replace('tag/', 'tags/')
         api_url = f'https://api.github.com/repos/{owner}/{repo}/releases/{tag}'
-        rel = GetPage(api_url, tojson=True)
+        rel = MGet(api_url, headers=headers).json()
         title = rel['name'] if rel['name'] else rel['tag_name']
         date = rel['published_at'][:10]
         assets = rel['assets']
         links = [x['browser_download_url'] for x in assets]
         if not links or not title:
-            raise Exception('parser error')
+            raise Exception('gh parser error')
         return title, links, date
 
     @staticmethod
