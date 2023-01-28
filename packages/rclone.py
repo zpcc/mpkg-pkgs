@@ -1,4 +1,4 @@
-from mpkg.common import Soft
+from mpkg.common import Soft, get_bits, soft_data
 from mpkg.load import Load
 from mpkg.utils import SearchSum
 
@@ -24,3 +24,20 @@ class Package(Soft):
             elif '-windows-386.zip' in link:
                 data.arch['32bit'] = link
                 data.sha256['32bit'] = SearchSum(link, sumurl)
+        larch = {'32bit': f'https://github.com/rclone/rclone/releases/download/v{data.ver}/rclone-v{data.ver}-linux-386.deb',
+                 '64bit': f'https://github.com/rclone/rclone/releases/download/v{data.ver}/rclone-v{data.ver}-linux-amd64.deb'}
+        ldata = data.create_new(arch=larch)
+        for bits, link in larch.items():
+            assert link in links
+            ldata.sha256[bits] = SearchSum(link, sumurl)
+        ldata.bin = ['MPKG-DEB']
+        self.append_arch(['linux', 'deb'], ldata)
+        adata = soft_data()
+        for arch in ['arm-v7', 'arm64']:
+            bits = get_bits(arch)
+            link = f'https://github.com/rclone/rclone/releases/download/v{data.ver}/rclone-v{data.ver}-linux-{arch}.deb'
+            assert link in links
+            adata.arch[bits] = link
+            adata.sha256[bits] = SearchSum(link, sumurl)
+        adata = adata.copyfrom(ldata)
+        self.append_arch(['linux', 'arm', 'deb'], adata)
