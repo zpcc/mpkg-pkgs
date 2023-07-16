@@ -12,7 +12,7 @@ class Package(Soft):
         url = 'https://github.com/git-for-windows/git/releases/latest'
         header, links, data.date = parser(url)
         data.changelog = url
-        data.ver = header.split(' ')[-1]
+        data.ver = header.split(' ')[-1].lstrip('v').rstrip('.windows.1')
         for link in links:
             if link.endswith('-64-bit.exe'):
                 data.arch['64bit'] = link

@@ -1,0 +1,12 @@
+{
+  "packages": [
+    {
+      "id": "vcredist-2015+",
+      "ver": "nightly",
+      "arch": {
+        "32bit": "https://aka.ms/vs/17/release/vc_redist.x86.exe",
+        "64bit": "https://aka.ms/vs/17/release/vc_redist.x64.exe"
+      }
+    }
+  ]
+}

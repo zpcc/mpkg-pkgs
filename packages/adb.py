@@ -10,6 +10,7 @@ class Package(Soft):
     def _prepare(self):
         data = self.data
         data.bin = ['adb.exe', 'fastboot.exe']
+        data.cmd = {'start': 'adb kill-server 2>nul'}
         links = [
             'https://dl.google.com/android/repository/platform-tools_r{ver}-windows.zip']
         url = 'https://developer.android.com/studio/releases/platform-tools?hl=en'

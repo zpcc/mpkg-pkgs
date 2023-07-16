@@ -12,7 +12,7 @@ class Package(Soft):
         arch = {'32bit': 'https://nodejs.org/dist/v{ver}/node-v{ver}-x86.msi',
                 '64bit': 'https://nodejs.org/dist/v{ver}/node-v{ver}-x64.msi'}
         url = 'https://nodejs.org/en/download/'
-        data.ver = Search(url, 'LTS Version: <strong>([\\d.]+)</strong>')
+        data.ver = Search(url, 'LTS Version.*:\\s*<strong>([\\d.]+)</strong>')
         data.changelog = 'https://github.com/nodejs/node/tree/master/doc/changelogs'
         date = Search(
             f'https://nodejs.org/dist/v{data.ver}/', f'node-v{data.ver}-x64.msi</a>\\s+([\\w-]+)')

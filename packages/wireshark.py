@@ -10,8 +10,8 @@ class Package(Soft):
         data.args = '/S /quicklaunchicon=no'
         links = {
             '64bit': 'https://www.wireshark.org/download/win64/Wireshark-win64-{ver}.exe'}
-        url = 'https://www.wireshark.org/docs/relnotes/'
-        data.ver = Search(url, 'Wireshark ([\\d.]+)')
+        url = 'https://www.wireshark.org/download.html'
+        data.ver = Search(url, 'Stable Release: ([\\d.]+)')
         data.changelog = f'https://www.wireshark.org/docs/relnotes/wireshark-{data.ver}.html'
         data.arch = Search(links=links, ver=data.ver)
         for k, v in data.arch.items():

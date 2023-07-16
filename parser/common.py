@@ -32,7 +32,7 @@ class Package(Soft):
         else:
             # input: https://sourceforge.net/projects/sevenzip/files/7-Zip/
             # output: [('19.00', '2019-02-22'), ('18.06', '2018-12-30')]
-            #items = re.findall('net\.sf\.files = (.*);', GetPage(url))[0]
+            # items = re.findall('net\.sf\.files = (.*);', GetPage(url))[0]
             folders = etree.HTML(GetPage(url)).xpath('//*[@class="folder "]')
             files = etree.HTML(GetPage(url)).xpath('//*[@class="file "]')
             result = [(item.xpath('.//span')[0].text,
@@ -48,7 +48,7 @@ class Package(Soft):
                 f'https://api.github.com/repos/{url}/releases', headers=headers).text) if re.match(regex, rel['name'])]
             if raw:
                 return rels
-            return [(rel['name'], [asset['browser_download_url'] for asset in rel['assets']],
+            return [(rel['name'] if rel['name'] else rel['tag_name'], [asset['browser_download_url'] for asset in rel['assets']],
                      rel['published_at'][:10]) for rel in rels]
         # input: https://github.com/git-for-windows/git/releases/latest
         # output: ('Git for Windows 2.27.0', ['https://github.com/git-for-wind...], '2020-06-01')

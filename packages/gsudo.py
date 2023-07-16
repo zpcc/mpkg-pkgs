@@ -18,4 +18,6 @@ class Package(Soft):
         for link in links:
             if link.endswith('.zip') and link.split('/')[-1].startswith('gsudo'):
                 data.links = [link]
-                data.sha256 = [GetPage(link+'.sha256').strip()]
+                sha256 = GetPage(link+'.hash').strip()
+                if sha256 != 'error':
+                    data.sha256 = [sha256]

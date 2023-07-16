@@ -9,14 +9,14 @@ class Package(Soft):
     def _prepare(self):
         data = self.data
         data.depends = []
-        data.ver = 'vc2019'
+        data.ver = 'vc2013'
         args = '/quiet /norestart'
         parser = Load('http/common-zpcc.py', sync=False)[0][0].scoop
 
-        files = ['vcredist2005', 'vcredist2008', 'vcredist2010', 'vcredist2012',
-                 'vcredist2013', 'vcredist2015', 'vcredist2017', 'vcredist2019']
+        files = ['vcredist2005', 'vcredist2008',
+                 'vcredist2010', 'vcredist2012', 'vcredist2013']
         urls = [
-            f'gh/lukesampson/scoop-extras@master/bucket/{u}.json' for u in files]
+            f'gh/ScoopInstaller/Extras@master/bucket/{u}.json' for u in files]
         url = 'https://cdn.jsdelivr.net/combine/'+','.join(urls)
         page = GetPage(url)
 
